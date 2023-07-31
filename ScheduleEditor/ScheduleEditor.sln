@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleEditor", "ScheduleEditor.csproj", "{A61C6021-6301-45FC-A878-7F791524BD2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimetableConverter", "..\TimetableConverter\TimetableConverter.csproj", "{A824C4C5-ECA7-4897-9C09-3DE7FFA7096C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A61C6021-6301-45FC-A878-7F791524BD2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A61C6021-6301-45FC-A878-7F791524BD2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A61C6021-6301-45FC-A878-7F791524BD2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A61C6021-6301-45FC-A878-7F791524BD2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A824C4C5-ECA7-4897-9C09-3DE7FFA7096C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A824C4C5-ECA7-4897-9C09-3DE7FFA7096C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A824C4C5-ECA7-4897-9C09-3DE7FFA7096C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A824C4C5-ECA7-4897-9C09-3DE7FFA7096C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {382508F4-16C2-4C09-BDE5-F69A9ACC1528}
+	EndGlobalSection
+EndGlobal
