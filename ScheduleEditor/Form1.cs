@@ -1,11 +1,12 @@
-
 using ScheduleEditor.Service;
 using ScheduleEditor.Utils;
+
 
 namespace ScheduleEditor
 {
 	public partial class Form1 : Form
 	{
+
 		private EditService editService;
 
 		private event EventHandler<EventArgs> OnScheduleChanged;
@@ -13,7 +14,6 @@ namespace ScheduleEditor
 
 		private void Init()
 		{
-			schedule = new Schedule();
 			editService = new EditService();
 			
 		}
