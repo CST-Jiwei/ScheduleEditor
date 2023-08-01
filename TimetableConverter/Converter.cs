@@ -5,17 +5,6 @@ namespace TimetableConverter
 {
     public static class Converter
     {
-        private static string[] baseSplits = { "/", "-------------" };
-        private static string[] courseWeekSplits = { "(", ")", "-", "周", "," };
-
-        //课程字符串中的索引
-        private static int courseName = 0;
-        private static int courseTeacher = 1;
-        private static int courseTypeAndHours = 2;
-        private static int courseWeekAndTime = 3;
-		private static int courseSingleWeek = 4; //单双周
-		private static int courseAddress = 4; 
-        private static int courseAddress_sw = 5; //如果没有单双周则为4，否则为5
 
 		/// <summary>
 		/// 创建单个课程对象
@@ -24,18 +13,18 @@ namespace TimetableConverter
 		internal static Course? CreateCourse(string c)
         {
             Course? course = new Course();
-            var strs = c?.Split(baseSplits, StringSplitOptions.RemoveEmptyEntries);
+            var strs = c?.Split(Config.baseSplits, StringSplitOptions.RemoveEmptyEntries);
             if (strs == null || strs.Length < 5) return null;
 
-            course.Name = strs[courseName];
+            course.Name = strs[Config.courseName];
 
-            course.Teacher = strs[courseTeacher];
+            course.Teacher = strs[Config.courseTeacher];
 
-            var th = strs[courseTypeAndHours].Split(":");
+            var th = strs[Config.courseTypeAndHours].Split(":");
             course.Type = th[0];
             course.Hours = int.Parse(th[1]);
 
-            var s = strs[courseWeekAndTime].Split("(");
+            var s = strs[Config.courseWeekAndTime].Split("(");
             if (s.Length < 2) return null;
             var time = s[0];
             var week = s[1];
@@ -45,7 +34,7 @@ namespace TimetableConverter
             course.EndTime = int.Parse(time.Substring(time.Length - 2, 2));
 
 
-            if (strs[courseWeekAndTime].Contains(",")) //跳周课
+            if (strs[Config.courseWeekAndTime].Contains(",")) //跳周课
             {
                 course.IsGap = true;
                 week = week.Replace("周", "").Replace(")", "");
@@ -72,30 +61,30 @@ namespace TimetableConverter
                     course.EndWeek = int.Parse(weeks[1]);
                 }
             }
-            if (strs[courseSingleWeek] == "单周")
+            if (strs[Config.courseSingleWeek] == "单周")
             {
                 course.IsSingleWeek = 1;
-                course.Address = strs[courseAddress_sw];
+                course.Address = strs[Config.courseAddress_sw];
             }
-            else if (strs[courseSingleWeek] == "双周")
+            else if (strs[Config.courseSingleWeek] == "双周")
             {
                 course.IsSingleWeek = 0;
-				course.Address = strs[courseAddress_sw];
+				course.Address = strs[Config.courseAddress_sw];
 			}
             else
             {
                 course.IsSingleWeek = -1;
-				course.Address = strs[courseAddress];
+				course.Address = strs[Config.courseAddress];
 			}
 
             return course;
         }
 
 		/// <summary>
-        /// 创建学生课程表对象
+		/// 创建学生课程表对象
 		/// 文件路径错误将返回null
 		/// </summary>
-		internal static Timetable? CreateTimetable(string filePath)
+		public static Timetable? CreateTimetable(string filePath)
         {
             Timetable? timetable = null;
             if (File.Exists(filePath))
@@ -138,10 +127,14 @@ namespace TimetableConverter
             return timetable;
         }
 
-        public static Schedule CreateSchedule()
+        public static Schedule CreateEmptySchedule()
         {
-            //TODO
 			return new Schedule();
+        }
+
+        public static Schedule? CreateScheduleFromFile(string path)
+        {
+
         }
 
     }

@@ -55,11 +55,11 @@ namespace TimetableConverter.Models
 			}
 		}
 		private List<FreeTime> _freeTimes;
-		private bool needUpdate = true;
+		private bool needUpdate = true; //是否需要更新FreeTimes
 		private List<FreeTime> genfreeTime()
 		{
-			var freeTime = new List<FreeTime>(18);
-			for (int w = 1; w <= 18; w++)
+			var freeTime = new List<FreeTime>(Config.WEEK_LIMIT);
+			for (int w = 1; w <= Config.WEEK_LIMIT; w++)
 			{
 				bool[,] free = new bool[4, 7];
 				for (int i = 0; i < 4; i++)

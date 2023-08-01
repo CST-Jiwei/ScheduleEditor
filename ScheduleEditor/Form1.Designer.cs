@@ -28,171 +28,202 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			ListViewItem listViewItem5 = new ListViewItem("21");
-			ListViewItem listViewItem6 = new ListViewItem("11");
-			ListViewItem listViewItem7 = new ListViewItem("212");
-			ListViewItem listViewItem8 = new ListViewItem("121");
-			Data = new TabPage();
-			btnSaveJson = new Button();
-			btnLoadJson = new Button();
-			memberListView = new ListView();
-			btnLoad = new Button();
-			label1 = new Label();
-			Edit = new TabPage();
+			menuStrip2 = new MenuStrip();
+			ScheduleData = new ToolStripMenuItem();
+			m_NewSche = new ToolStripMenuItem();
+			toolStripSeparator3 = new ToolStripSeparator();
+			m_SaveJson = new ToolStripMenuItem();
+			m_LoadJson = new ToolStripMenuItem();
+			toolStripSeparator1 = new ToolStripSeparator();
+			m_ImportWebJson = new ToolStripMenuItem();
+			Member = new ToolStripMenuItem();
+			m_AddXlsx = new ToolStripMenuItem();
+			m_AddJson = new ToolStripMenuItem();
+			toolStripSeparator2 = new ToolStripSeparator();
+			m_OpenMemberList = new ToolStripMenuItem();
+			btnToNext = new Button();
+			btnToPre = new Button();
 			lblStatus = new Label();
 			tableLayoutPanel1 = new TableLayoutPanel();
-			tabControl1 = new TabControl();
-			Data.SuspendLayout();
-			Edit.SuspendLayout();
-			tabControl1.SuspendLayout();
+			menuStrip2.SuspendLayout();
 			SuspendLayout();
 			// 
-			// Data
+			// menuStrip2
 			// 
-			Data.Controls.Add(btnSaveJson);
-			Data.Controls.Add(btnLoadJson);
-			Data.Controls.Add(memberListView);
-			Data.Controls.Add(btnLoad);
-			Data.Controls.Add(label1);
-			Data.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			Data.Location = new Point(4, 29);
-			Data.Margin = new Padding(3, 4, 3, 4);
-			Data.Name = "Data";
-			Data.Size = new Size(1229, 694);
-			Data.TabIndex = 2;
-			Data.Text = "数据管理";
-			Data.UseVisualStyleBackColor = true;
+			menuStrip2.ImageScalingSize = new Size(20, 20);
+			menuStrip2.Items.AddRange(new ToolStripItem[] { ScheduleData, Member });
+			menuStrip2.Location = new Point(0, 0);
+			menuStrip2.Name = "menuStrip2";
+			menuStrip2.Padding = new Padding(7, 2, 0, 2);
+			menuStrip2.Size = new Size(1403, 28);
+			menuStrip2.TabIndex = 1;
+			menuStrip2.Text = "menuStrip2";
 			// 
-			// btnSaveJson
+			// ScheduleData
 			// 
-			btnSaveJson.Location = new Point(552, 643);
-			btnSaveJson.Name = "btnSaveJson";
-			btnSaveJson.Size = new Size(230, 40);
-			btnSaveJson.TabIndex = 12;
-			btnSaveJson.Text = "保存值班表Json文件";
-			btnSaveJson.UseVisualStyleBackColor = true;
-			btnSaveJson.Click += btnSaveJson_Click;
+			ScheduleData.DropDownItems.AddRange(new ToolStripItem[] { m_NewSche, toolStripSeparator3, m_SaveJson, m_LoadJson, toolStripSeparator1, m_ImportWebJson });
+			ScheduleData.Name = "ScheduleData";
+			ScheduleData.Size = new Size(53, 24);
+			ScheduleData.Text = "数据";
 			// 
-			// btnLoadJson
+			// m_NewSche
 			// 
-			btnLoadJson.Location = new Point(287, 643);
-			btnLoadJson.Name = "btnLoadJson";
-			btnLoadJson.Size = new Size(230, 40);
-			btnLoadJson.TabIndex = 11;
-			btnLoadJson.Text = "导入值班表Json文件";
-			btnLoadJson.UseVisualStyleBackColor = true;
-			btnLoadJson.Click += btnLoadJson_Click;
+			m_NewSche.Name = "m_NewSche";
+			m_NewSche.Size = new Size(229, 26);
+			m_NewSche.Text = "新建空白值班表";
 			// 
-			// memberListView
+			// toolStripSeparator3
 			// 
-			memberListView.Items.AddRange(new ListViewItem[] { listViewItem5, listViewItem6, listViewItem7, listViewItem8 });
-			memberListView.Location = new Point(10, 7);
-			memberListView.Name = "memberListView";
-			memberListView.Size = new Size(1216, 623);
-			memberListView.TabIndex = 10;
-			memberListView.UseCompatibleStateImageBehavior = false;
-			memberListView.View = View.SmallIcon;
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new Size(226, 6);
 			// 
-			// btnLoad
+			// m_SaveJson
 			// 
-			btnLoad.Location = new Point(32, 643);
-			btnLoad.Name = "btnLoad";
-			btnLoad.Size = new Size(160, 40);
-			btnLoad.TabIndex = 6;
-			btnLoad.Text = "导入xlsx文件";
-			btnLoad.UseVisualStyleBackColor = true;
-			btnLoad.Click += btnLoad_Click;
+			m_SaveJson.Name = "m_SaveJson";
+			m_SaveJson.Size = new Size(229, 26);
+			m_SaveJson.Text = "保存至Json";
 			// 
-			// label1
+			// m_LoadJson
 			// 
-			label1.AutoSize = true;
-			label1.Location = new Point(32, 7);
-			label1.Name = "label1";
-			label1.Size = new Size(0, 27);
-			label1.TabIndex = 9;
+			m_LoadJson.Name = "m_LoadJson";
+			m_LoadJson.Size = new Size(229, 26);
+			m_LoadJson.Text = "读取Json";
 			// 
-			// Edit
+			// toolStripSeparator1
 			// 
-			Edit.Controls.Add(lblStatus);
-			Edit.Controls.Add(tableLayoutPanel1);
-			Edit.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			Edit.Location = new Point(4, 29);
-			Edit.Margin = new Padding(3, 4, 3, 4);
-			Edit.Name = "Edit";
-			Edit.Padding = new Padding(3, 4, 3, 4);
-			Edit.Size = new Size(1229, 694);
-			Edit.TabIndex = 0;
-			Edit.Text = "值班表编辑";
-			Edit.UseVisualStyleBackColor = true;
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new Size(226, 6);
+			// 
+			// m_ImportWebJson
+			// 
+			m_ImportWebJson.Name = "m_ImportWebJson";
+			m_ImportWebJson.Size = new Size(229, 26);
+			m_ImportWebJson.Text = "导出网页端可读Json";
+			// 
+			// Member
+			// 
+			Member.DropDownItems.AddRange(new ToolStripItem[] { m_AddXlsx, m_AddJson, toolStripSeparator2, m_OpenMemberList });
+			Member.Name = "Member";
+			Member.Size = new Size(53, 24);
+			Member.Text = "队员";
+			// 
+			// m_AddXlsx
+			// 
+			m_AddXlsx.Name = "m_AddXlsx";
+			m_AddXlsx.Size = new Size(241, 26);
+			m_AddXlsx.Text = "添加队员Xlsx课表文件";
+			// 
+			// m_AddJson
+			// 
+			m_AddJson.Name = "m_AddJson";
+			m_AddJson.Size = new Size(241, 26);
+			m_AddJson.Text = "添加队员Json文件";
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Name = "toolStripSeparator2";
+			toolStripSeparator2.Size = new Size(238, 6);
+			// 
+			// m_OpenMemberList
+			// 
+			m_OpenMemberList.Name = "m_OpenMemberList";
+			m_OpenMemberList.Size = new Size(241, 26);
+			m_OpenMemberList.Text = "查看队员列表";
+			m_OpenMemberList.Click += OpenMemberList;
+			// 
+			// btnToNext
+			// 
+			btnToNext.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+			btnToNext.Location = new Point(1322, 321);
+			btnToNext.Name = "btnToNext";
+			btnToNext.Size = new Size(56, 48);
+			btnToNext.TabIndex = 7;
+			btnToNext.Text = ">>";
+			btnToNext.UseVisualStyleBackColor = true;
+			btnToNext.Click += btnToNext_Click;
+			// 
+			// btnToPre
+			// 
+			btnToPre.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+			btnToPre.Location = new Point(26, 321);
+			btnToPre.Name = "btnToPre";
+			btnToPre.Size = new Size(56, 48);
+			btnToPre.TabIndex = 6;
+			btnToPre.Text = "<<";
+			btnToPre.UseVisualStyleBackColor = true;
+			btnToPre.Click += btnToPre_Click;
 			// 
 			// lblStatus
 			// 
 			lblStatus.AutoSize = true;
-			lblStatus.Location = new Point(6, 650);
+			lblStatus.Font = new Font("Microsoft YaHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
+			lblStatus.ForeColor = Color.Red;
+			lblStatus.Location = new Point(26, 666);
 			lblStatus.Name = "lblStatus";
-			lblStatus.Size = new Size(432, 27);
-			lblStatus.TabIndex = 1;
-			lblStatus.Text = "暂无数据，请先导入值班表数据或导入队员课表";
+			lblStatus.Size = new Size(453, 30);
+			lblStatus.TabIndex = 5;
+			lblStatus.Text = "暂无数据，请先导入值班表数据或新建值班表";
 			// 
 			// tableLayoutPanel1
 			// 
+			tableLayoutPanel1.BackColor = SystemColors.ControlLight;
+			tableLayoutPanel1.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 			tableLayoutPanel1.ColumnCount = 5;
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
 			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-			tableLayoutPanel1.Location = new Point(6, 7);
+			tableLayoutPanel1.Location = new Point(88, 43);
 			tableLayoutPanel1.Name = "tableLayoutPanel1";
 			tableLayoutPanel1.RowCount = 4;
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
 			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-			tableLayoutPanel1.Size = new Size(1217, 626);
-			tableLayoutPanel1.TabIndex = 0;
-			// 
-			// tabControl1
-			// 
-			tabControl1.Controls.Add(Edit);
-			tabControl1.Controls.Add(Data);
-			tabControl1.Location = new Point(14, 13);
-			tabControl1.Margin = new Padding(3, 4, 3, 4);
-			tabControl1.Name = "tabControl1";
-			tabControl1.SelectedIndex = 0;
-			tabControl1.Size = new Size(1237, 727);
-			tabControl1.TabIndex = 0;
+			tableLayoutPanel1.Size = new Size(1228, 595);
+			tableLayoutPanel1.TabIndex = 4;
 			// 
 			// Form1
 			// 
-			AutoScaleDimensions = new SizeF(9F, 20F);
+			AutoScaleDimensions = new SizeF(10F, 19F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(1263, 753);
-			Controls.Add(tabControl1);
+			ClientSize = new Size(1403, 715);
+			Controls.Add(btnToNext);
+			Controls.Add(btnToPre);
+			Controls.Add(lblStatus);
+			Controls.Add(tableLayoutPanel1);
+			Controls.Add(menuStrip2);
+			Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
 			ForeColor = Color.Black;
 			FormBorderStyle = FormBorderStyle.FixedSingle;
+			MainMenuStrip = menuStrip2;
 			Margin = new Padding(3, 4, 3, 4);
 			Name = "Form1";
 			Text = "值班表编辑器";
-			Data.ResumeLayout(false);
-			Data.PerformLayout();
-			Edit.ResumeLayout(false);
-			Edit.PerformLayout();
-			tabControl1.ResumeLayout(false);
+			menuStrip2.ResumeLayout(false);
+			menuStrip2.PerformLayout();
 			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
-
-		private TabPage Data;
-		private TabPage Edit;
-		private TabControl tabControl1;
-		private Label label1;
-		private ListView memberListView;
-		private Button btnLoad;
-		private Button btnLoadJson;
-		private Button btnSaveJson;
-		private TableLayoutPanel tableLayoutPanel1;
+		private MenuStrip menuStrip2;
+		private ToolStripMenuItem Member;
+		private ToolStripMenuItem m_AddXlsx;
+		private ToolStripMenuItem m_AddJson;
+		private ToolStripMenuItem ScheduleData;
+		private ToolStripMenuItem m_SaveJson;
+		private ToolStripMenuItem m_LoadJson;
+		private ToolStripSeparator toolStripSeparator1;
+		private ToolStripMenuItem m_ImportWebJson;
+		private ToolStripSeparator toolStripSeparator2;
+		private ToolStripMenuItem m_OpenMemberList;
+		private Button btnToNext;
+		private Button btnToPre;
 		private Label lblStatus;
+		private TableLayoutPanel tableLayoutPanel1;
+		private ToolStripMenuItem m_NewSche;
+		private ToolStripSeparator toolStripSeparator3;
 	}
 }
