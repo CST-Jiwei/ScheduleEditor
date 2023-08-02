@@ -48,6 +48,7 @@
 			cmbx_member.Location = new Point(75, 130);
 			cmbx_member.Name = "cmbx_member";
 			cmbx_member.Size = new Size(132, 28);
+			cmbx_member.Sorted = true;
 			cmbx_member.TabIndex = 1;
 			cmbx_member.TextUpdate += cmbx_member_TextUpdate;
 			// 

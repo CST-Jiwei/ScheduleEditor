@@ -31,7 +31,14 @@ namespace SCAUConverter.Models
 		public void AddMemberTimetable(Timetable timetable)
 		{
 			Update();
-			_memberTimetables.Add(timetable);
+			if(_memberTimetables.Find(t=>t.StuName == timetable.StuName) != null)
+			{
+				//TODO 解决重复导入或者重名问题
+			}
+			else
+			{
+				_memberTimetables.Add(timetable);
+			}
 		}
 		public bool RemoveMemberTimetable(string member)
 		{
