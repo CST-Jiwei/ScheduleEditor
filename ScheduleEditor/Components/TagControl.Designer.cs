@@ -40,7 +40,7 @@
 			// 
 			name.AutoSize = true;
 			name.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-			name.Location = new Point(3, 10);
+			name.Location = new Point(3, 0);
 			name.Name = "name";
 			name.Size = new Size(78, 24);
 			name.TabIndex = 0;
@@ -51,7 +51,7 @@
 			close.AutoSize = true;
 			close.Cursor = Cursors.Hand;
 			close.Font = new Font("Microsoft YaHei UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-			close.Location = new Point(83, 9);
+			close.Location = new Point(83, 0);
 			close.Name = "close";
 			close.Size = new Size(24, 25);
 			close.TabIndex = 1;
@@ -81,7 +81,7 @@
 			Controls.Add(close);
 			Controls.Add(name);
 			Name = "TagControl";
-			Size = new Size(110, 42);
+			Size = new Size(110, 24);
 			contextMenuStrip1.ResumeLayout(false);
 			ResumeLayout(false);
 			PerformLayout();

@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TimetableConverter.Models
+namespace SCAUConverter.Models
 {
 	public class ScheduleUnit
 	{
@@ -34,7 +34,7 @@ namespace TimetableConverter.Models
 			};
 		}
 
-		internal ScheduleUnit() 
+		internal ScheduleUnit()
 		{
 			Section1Members = new();
 			Section2Members = new();

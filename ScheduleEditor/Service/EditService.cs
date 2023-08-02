@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using SCAUConverter;
+using SCAUConverter.Models;
+using System.Collections.ObjectModel;
 using System.Text.Json;
-using TimetableConverter;
-using TimetableConverter.Models;
 
 namespace ScheduleEditor.Service
 {
@@ -14,7 +14,6 @@ namespace ScheduleEditor.Service
 
 		public static EditService CreateService()
 		{
-
 			return new EditService();
 		}
 
@@ -30,17 +29,18 @@ namespace ScheduleEditor.Service
 			NewEmptySchedule();
 			if(!string.IsNullOrEmpty(json))
 			{
-
+				//TODO
 			}
 		}
 		public string GetScheduleJson()
 		{
+			//TODO
 			return "json";
 		}
 
 		public string GetMembersJson()
 		{
-			var m = schedule?.MemberList.ToList();
+			var m = schedule?.MemberTimetables;
 			var json = JsonSerializer.Serialize(m);
 			return json;
 		}
@@ -65,22 +65,30 @@ namespace ScheduleEditor.Service
 			}
 		}
 
-		/// <param name="jsons">一组储存队员数据的json，每一个都是一个不等长的List</param>
-		public void AddMemberJson(string[]? jsons)
+		public void AddMemberJson(string? json)
 		{
-			if(jsons != null)
+			if(json != null)
 			{
-
+				var list = JsonSerializer.Deserialize<List<Timetable>>(json);
+				if(list != null)
+				{
+					foreach(var t in list)
+					{
+						schedule?.AddMemberTimetable(t);
+					}
+				}
 			}
 		}
 
 		public string GetScheduleWebJson()
 		{
+			//TODO
 			return "json";
 		}
 
 		public ReadOnlyCollection<string?>? GetAvailableMemberList()
 		{
+			//TODO
 			return schedule?.MemberList;
 		}
 

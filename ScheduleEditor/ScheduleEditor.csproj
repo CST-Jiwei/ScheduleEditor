@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TimetableConverter\TimetableConverter.csproj" />
+    <ProjectReference Include="..\TimetableConverter\SCAUConverter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

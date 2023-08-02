@@ -17,18 +17,15 @@ namespace ScheduleEditor.Components
 			BackColor = SystemColors.Control;
 			AutoSize = false;
 			CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
-			foreach(ColumnStyle col in RowStyles)
+			for(int i = 0; i < ColumnCount; i++)
 			{
-				col.SizeType = SizeType.Percent;
-				col.Width = 20;
+				ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
 			}
-			foreach(RowStyle row in ColumnStyles)
+			for(int i = 0; i < RowCount; i++)
 			{
-				row.SizeType = SizeType.Percent;
-				row.Height = 25;
+				RowStyles.Add(new RowStyle(SizeType.Percent, 25));
 			}
 			Size = size;
-
 		}
 	}
 }

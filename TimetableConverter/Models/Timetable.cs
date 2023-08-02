@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace TimetableConverter.Models
+namespace SCAUConverter.Models
 {
 	[Serializable]
 	public class Timetable
@@ -85,7 +85,7 @@ namespace TimetableConverter.Models
 				{
 					for (int w = c.StartWeek; w <= c.EndWeek; w++)
 					{
-						if (c.IsSingleWeek == -1 || (c.IsSingleWeek == 1 && w % 2 == 1) || (c.IsSingleWeek == 0 && w % 2 == 0))
+						if (c.IsSingleWeek == -1 || c.IsSingleWeek == 1 && w % 2 == 1 || c.IsSingleWeek == 0 && w % 2 == 0)
 						{
 							for (int i = sec.Item1; i <= sec.Item2; i++)
 							{

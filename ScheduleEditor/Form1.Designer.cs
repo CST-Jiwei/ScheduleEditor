@@ -28,14 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			btnToNext = new Button();
 			btnToPre = new Button();
 			lblStatus = new Label();
 			weekCount = new Label();
 			containPanel = new Panel();
-			tableLayoutPanel1 = new TableLayoutPanel();
-			memberTagControl1 = new Components.MemberTagControl();
 			ScheduleData = new ToolStripMenuItem();
 			m_NewSche = new ToolStripMenuItem();
 			toolStripSeparator3 = new ToolStripSeparator();
@@ -50,8 +47,6 @@
 			m_OpenMemberList = new ToolStripMenuItem();
 			saveMemberJson = new ToolStripMenuItem();
 			menuStrip2 = new MenuStrip();
-			containPanel.SuspendLayout();
-			tableLayoutPanel1.SuspendLayout();
 			menuStrip2.SuspendLayout();
 			SuspendLayout();
 			// 
@@ -92,7 +87,7 @@
 			// 
 			weekCount.AutoSize = true;
 			weekCount.Font = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
-			weekCount.Location = new Point(10, 43);
+			weekCount.Location = new Point(3, 44);
 			weekCount.Name = "weekCount";
 			weekCount.Size = new Size(72, 26);
 			weekCount.TabIndex = 9;
@@ -100,40 +95,10 @@
 			// 
 			// containPanel
 			// 
-			containPanel.Controls.Add(tableLayoutPanel1);
-			containPanel.Location = new Point(74, 63);
+			containPanel.Location = new Point(74, 43);
 			containPanel.Name = "containPanel";
-			containPanel.Size = new Size(1255, 606);
+			containPanel.Size = new Size(1255, 626);
 			containPanel.TabIndex = 0;
-			// 
-			// tableLayoutPanel1
-			// 
-			tableLayoutPanel1.ColumnCount = 5;
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-			tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-			tableLayoutPanel1.Controls.Add(memberTagControl1, 1, 1);
-			tableLayoutPanel1.Location = new Point(3, 3);
-			tableLayoutPanel1.Name = "tableLayoutPanel1";
-			tableLayoutPanel1.RowCount = 4;
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-			tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-			tableLayoutPanel1.Size = new Size(1249, 581);
-			tableLayoutPanel1.TabIndex = 0;
-			// 
-			// memberTagControl1
-			// 
-			memberTagControl1.AvailableMembers = (List<string>)resources.GetObject("memberTagControl1.AvailableMembers");
-			memberTagControl1.BackColor = SystemColors.Control;
-			memberTagControl1.Location = new Point(252, 148);
-			memberTagControl1.Name = "memberTagControl1";
-			memberTagControl1.Size = new Size(243, 135);
-			memberTagControl1.TabIndex = 0;
-			memberTagControl1.WeekDaySection = ((int, int, int))resources.GetObject("memberTagControl1.WeekDaySection");
 			// 
 			// ScheduleData
 			// 
@@ -252,8 +217,6 @@
 			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "值班表编辑器";
 			Load += Form1_Load;
-			containPanel.ResumeLayout(false);
-			tableLayoutPanel1.ResumeLayout(false);
 			menuStrip2.ResumeLayout(false);
 			menuStrip2.PerformLayout();
 			ResumeLayout(false);
@@ -266,7 +229,6 @@
 		private Label lblStatus;
 		private Label weekCount;
 		private Panel containPanel;
-		private TableLayoutPanel tableLayoutPanel1;
 		private ToolStripMenuItem Datas;
 		private ToolStripMenuItem m_NewSche;
 		private ToolStripSeparator toolStripSeparator3;
@@ -280,7 +242,6 @@
 		private ToolStripSeparator toolStripSeparator2;
 		private ToolStripMenuItem m_OpenMemberList;
 		private MenuStrip menuStrip2;
-		private Components.MemberTagControl memberTagControl1;
 		private ToolStripMenuItem saveMemberJson;
 		private ToolStripMenuItem ScheduleData;
 	}

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimetableConverter.Models
+namespace SCAUConverter.Models
 {
 	[Serializable]
 	public class Course

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Collections.ObjectModel;
+using SCAUConverter;
 
-namespace TimetableConverter.Models
+namespace SCAUConverter.Models
 {
 	[Serializable]
 	public class Schedule
@@ -32,7 +33,7 @@ namespace TimetableConverter.Models
 		}
 		public bool RemoveMemberTimetable(string member)
 		{
-			if(IsMemberScheduled(member))
+			if (IsMemberScheduled(member))
 			{
 				var loc = _scheduledMembers[member];
 				_arrangements.Remove((loc.week, loc.day));
@@ -81,7 +82,7 @@ namespace TimetableConverter.Models
 		public void RemoveArrangement(int week, int day, int section, string member)
 		{
 			Update();
-			if(_arrangements.ContainsKey((week, day)))
+			if (_arrangements.ContainsKey((week, day)))
 			{
 				_arrangements[(week, day)].GetSectionMembers(section).Remove(member);
 			}
@@ -98,9 +99,9 @@ namespace TimetableConverter.Models
 		private void initialize()
 		{
 			Update();
-			for(int w = 1; w <= Config.WEEK_LIMIT; w++)
+			for (int w = 1; w <= Config.WEEK_LIMIT; w++)
 			{
-				for(int d = 1; d <= Config.DAY_LIMIT; d++)
+				for (int d = 1; d <= Config.DAY_LIMIT; d++)
 				{
 					_arrangements.Add((w, d), new());
 				}
@@ -124,7 +125,7 @@ namespace TimetableConverter.Models
 		public void Update()
 		{
 			timestamp = DateTime.Now.ToString("G");
-			
+
 		}
 
 	}

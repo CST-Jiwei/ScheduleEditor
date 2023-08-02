@@ -37,7 +37,7 @@
 			flowPane.BorderStyle = BorderStyle.FixedSingle;
 			flowPane.Location = new Point(3, 3);
 			flowPane.Name = "flowPane";
-			flowPane.Size = new Size(216, 97);
+			flowPane.Size = new Size(185, 97);
 			flowPane.TabIndex = 0;
 			// 
 			// cmbx_member
@@ -56,7 +56,7 @@
 			Controls.Add(cmbx_member);
 			Controls.Add(flowPane);
 			Name = "MemberTagControl";
-			Size = new Size(222, 140);
+			Size = new Size(210, 140);
 			ResumeLayout(false);
 		}
 

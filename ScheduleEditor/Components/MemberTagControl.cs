@@ -17,6 +17,9 @@ namespace ScheduleEditor.Components
 		public MemberTagControl()
 		{
 			InitializeComponent();
+
+
+			//
 			_currentMembers = new();
 
 			//初始化下拉选择框
@@ -29,25 +32,22 @@ namespace ScheduleEditor.Components
 			editService = s;
 		}
 
-		public List<string?>? AvailableMembers { get; set; }
-
-		public ReadOnlyCollection<string> CurrentMembers => _currentMembers.AsReadOnly();
-		private List<string> _currentMembers;
-
+		public List<string> AvailableMembers { get; set; }
+		public List<string> CurrentMembers { get; set; }
 		public (int week, int day, int section) WeekDaySection { get; set; }
 
 		private void AddMember(string name)
 		{
 			TagControl tag = new() { NameText = name };
 			tag.CloseEvent += RemoveMemberTag_CloseClick;
-			_currentMembers.Add(name);
+			CurrentMembers.Add(name);
 			flowPane.Controls.Add(tag);
 		}
 
 		private void RemoveMemberTag_CloseClick(object sender, EventArgs e)
 		{
 			TagControl tag = (TagControl)sender;
-			_currentMembers.Remove(tag.NameText);
+			CurrentMembers.Remove(tag.NameText);
 			flowPane.Controls.Remove(tag);
 		}
 

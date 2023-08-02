@@ -37,6 +37,7 @@ namespace ScheduleEditor
 					{
 						var tag = new MemberTagControl();
 						tag.WeekDaySection = (w, d, s);
+						tag.SetService(edit);
 						table.Controls.Add(tag, d - 1, s - 2);
 					}
 				}
@@ -131,25 +132,20 @@ namespace ScheduleEditor
 		{
 			var dlg = new OpenFileDialog();
 			dlg.Filter = "Json文件|*.json";
-			dlg.Multiselect = true;
+			dlg.Multiselect = false;
 			dlg.AddExtension = true;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				var files = dlg.FileNames;
+				var file = dlg.FileName;
 				var msg = MessageBox.Show(
-					$"共{files.Length}个文件, 是否添加?\n(添加不会覆盖原有数据)",
+					$"是否添加?\n(添加不会覆盖原有数据)",
 					"是否添加",
 					MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question
 				);
 				if (msg == DialogResult.Yes)
 				{
-					List<string> l = new();
-					foreach (var file in files)
-					{
-						l.Add(File.ReadAllText(file));
-					}
-					edit.AddMemberJson(l.ToArray());
+					edit.AddMemberJson(File.ReadAllText(file));
 				}
 			}
 		}
