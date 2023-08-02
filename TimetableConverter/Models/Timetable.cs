@@ -11,17 +11,7 @@ namespace TimetableConverter.Models
 		public string? StuName { get; set; }
 		public string? StuID { get; set; }
 
-		public ReadOnlyCollection<Course> StuCourses
-		{
-			get
-			{
-				if (_stuCourses is null)
-				{
-					_stuCourses = new List<Course>();
-				}
-				return _stuCourses.AsReadOnly();
-			}
-		}
+		public ReadOnlyCollection<Course> StuCourses => _stuCourses.AsReadOnly();
 		private List<Course> _stuCourses;
 		public void SetStuCourses(List<Course> lc)
 		{

@@ -14,13 +14,8 @@ namespace TimetableConverter.Models
 		public string? timestamp { get; private set; }
 
 		private List<Timetable> _memberTimetables;
-		public ReadOnlyCollection<Timetable> MemberTimetables
-		{
-			get
-			{
-				return _memberTimetables.AsReadOnly();
-			}
-		}
+		public ReadOnlyCollection<Timetable> MemberTimetables => _memberTimetables.AsReadOnly();
+		public ReadOnlyCollection<string?> MemberList => _memberTimetables.Select(t => t.StuName).ToList().AsReadOnly();
 		/// <summary>
 		/// 设置队员列表（将会重置排班表，若未保存将会丢失）
 		/// </summary>
@@ -74,13 +69,7 @@ namespace TimetableConverter.Models
 			}
 			return null;
 		}
-		public ReadOnlyCollection<ScheduleUnit> Arrangements
-		{
-			get
-			{
-				return _arrangements.Values.ToList().AsReadOnly();
-			}
-		}
+		public ReadOnlyCollection<ScheduleUnit> Arrangements => _arrangements.Values.ToList().AsReadOnly();
 		public void AddArrangement(int week, int day, int section, string member)
 		{
 			Update();
@@ -131,7 +120,6 @@ namespace TimetableConverter.Models
 			_scheduledMembers.Clear();
 			_memberTimetables.Clear();
 		}
-
 
 		public void Update()
 		{

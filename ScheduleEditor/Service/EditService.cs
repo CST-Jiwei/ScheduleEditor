@@ -1,9 +1,11 @@
-﻿using TimetableConverter;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json;
+using TimetableConverter;
 using TimetableConverter.Models;
 
 namespace ScheduleEditor.Service
 {
-	internal class EditService
+	public class EditService
 	{
 		private EditService()
 		{
@@ -16,26 +18,70 @@ namespace ScheduleEditor.Service
 			return new EditService();
 		}
 
+		public bool IsDataLoaded => schedule != null;
 		private Schedule? schedule;
 
-		public void LoadSchedule(string path)
+		public void NewEmptySchedule()
 		{
+			schedule = Converter.CreateSchedule(null);
+		}
+		public void LoadScheduleJson(string json)
+		{
+			NewEmptySchedule();
+			if(!string.IsNullOrEmpty(json))
+			{
 
+			}
+		}
+		public string GetScheduleJson()
+		{
+			return "json";
 		}
 
-		public void SaveSchedule(string path)
+		public string GetMembersJson()
 		{
-
+			var m = schedule?.MemberList.ToList();
+			var json = JsonSerializer.Serialize(m);
+			return json;
 		}
 
-		public void NewSchedule()
+		public void AddMemberXlsxFile(string[]? xlsxPath)
 		{
-			schedule = Converter.CreateEmptySchedule();
+			if(xlsxPath != null)
+			{
+				if(schedule == null)
+				{
+					schedule = Converter.CreateSchedule(xlsxPath);
+				}
+                else
+                {
+					foreach (var path in xlsxPath)
+					{
+						var t = Converter.CreateTimetable(path);
+						if(t != null)
+							schedule.AddMemberTimetable(t);
+					}
+				}
+			}
 		}
 
-		public void ExportSchedule()
+		/// <param name="jsons">一组储存队员数据的json，每一个都是一个不等长的List</param>
+		public void AddMemberJson(string[]? jsons)
 		{
+			if(jsons != null)
+			{
 
+			}
+		}
+
+		public string GetScheduleWebJson()
+		{
+			return "json";
+		}
+
+		public ReadOnlyCollection<string?>? GetAvailableMemberList()
+		{
+			return schedule?.MemberList;
 		}
 
 	}

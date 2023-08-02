@@ -127,15 +127,29 @@ namespace TimetableConverter
             return timetable;
         }
 
-        public static Schedule CreateEmptySchedule()
+        /// <summary>
+        /// 创建值班表对象
+        /// 默认返回空课程表
+        /// </summary>
+        /// <param name="paths"></param>
+        /// <returns></returns>
+        public static Schedule CreateSchedule(string[]? paths = null)
         {
-			return new Schedule();
+
+			var sch = new Schedule();
+			if (paths != null && paths.Length != 0)
+            {
+				foreach (var path in paths)
+				{
+					var timetable = CreateTimetable(path);
+					if (timetable != null)
+					{
+						sch.AddMemberTimetable(timetable);
+					}
+				}
+			}
+            return sch;
         }
 
-        public static Schedule? CreateScheduleFromFile(string path)
-        {
-
-        }
-
-    }
+	}
 }
