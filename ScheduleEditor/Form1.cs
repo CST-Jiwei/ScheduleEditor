@@ -9,18 +9,19 @@ namespace ScheduleEditor
 		public Form1()
 		{
 			InitializeComponent();
+			Initialize();
 			InitializeForm();
 			InitializeTable();
-			Initialize();
 		}
 
-		private Dictionary<int, TableLayoutPanel> tableList;
+		private Dictionary<int, ScheduleTablePanel> tableList;
 		private int currentWeek = 1;
 
 		private void InitializeForm()
 		{
 			this.Text = General.Title;
 			//
+			UpdateStatusText(this, EventArgs.Empty);
 		}
 
 		private void InitializeTable()
@@ -35,9 +36,7 @@ namespace ScheduleEditor
 				{
 					for (int s = 1; s <= 4; s++)
 					{
-						var tag = new MemberTagControl();
-						tag.WeekDaySection = (w, d, s);
-						tag.SetService(edit);
+						var tag = new MemberTagControl(w, d, s);
 						table.Controls.Add(tag, d - 1, s - 2);
 					}
 				}
@@ -51,7 +50,7 @@ namespace ScheduleEditor
 
 		private void CreateNewSchedule(object sender, EventArgs e)
 		{
-			edit.NewEmptySchedule();
+			EditService.Instance.NewEmptySchedule();
 			InitializeTable();
 		}
 
@@ -73,7 +72,7 @@ namespace ScheduleEditor
 				if (msg == DialogResult.Yes)
 				{
 					var json = File.ReadAllText(file);
-					edit.LoadScheduleJson(json);
+					EditService.Instance.LoadScheduleJson(json);
 				}
 			}
 		}
@@ -82,12 +81,12 @@ namespace ScheduleEditor
 		{
 			var dlg = new SaveFileDialog();
 			dlg.Filter = "Json文件|*.json";
-			dlg.FileName = $"schedule-{General.GetTimestampS()}.json";
+			dlg.FileName = $"schedule-{General.GetTimeStampForFileName()}.json";
 			dlg.AddExtension = true;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				var file = dlg.FileName;
-				var json = edit.GetScheduleJson();
+				var json = EditService.Instance.GetScheduleJson();
 				File.WriteAllText(file, json);
 			}
 		}
@@ -96,12 +95,12 @@ namespace ScheduleEditor
 		{
 			var dlg = new SaveFileDialog();
 			dlg.Filter = "Json文件|*.json";
-			dlg.FileName = $"ScheduleWebJson-{General.GetTimestampS()}.json";
+			dlg.FileName = $"ScheduleWebJson-{General.GetTimeStampForFileName()}.json";
 			dlg.AddExtension = true;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				var file = dlg.FileName;
-				var json = edit.GetScheduleWebJson();
+				var json = EditService.Instance.GetScheduleWebJson();
 				File.WriteAllText(file, json);
 			}
 		}
@@ -123,7 +122,7 @@ namespace ScheduleEditor
 				);
 				if (msg == DialogResult.Yes)
 				{
-					edit.AddMemberXlsxFile(files);
+					EditService.Instance.AddMemberXlsxFile(files);
 				}
 			}
 		}
@@ -145,7 +144,7 @@ namespace ScheduleEditor
 				);
 				if (msg == DialogResult.Yes)
 				{
-					edit.AddMemberJson(File.ReadAllText(file));
+					EditService.Instance.AddMemberJson(File.ReadAllText(file));
 				}
 			}
 		}
@@ -160,12 +159,12 @@ namespace ScheduleEditor
 		{
 			var dlg = new SaveFileDialog();
 			dlg.Filter = "Json文件|*.json";
-			dlg.FileName = $"members-{General.GetTimestampS()}.json";
+			dlg.FileName = $"members-{General.GetTimeStampForFileName()}.json";
 			dlg.AddExtension = true;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				var file = dlg.FileName;
-				var json = edit.GetMembersJson();
+				var json = EditService.Instance.GetMembersJson();
 				File.WriteAllText(file, json);
 			}
 		}
@@ -196,6 +195,21 @@ namespace ScheduleEditor
 			}
 		}
 
+		private void btn_ForceUpdate_Click(object sender, EventArgs e)
+		{
+			tableList[currentWeek].UpdateAllUnit();
+		}
+
+		private void btn_Clear_Click(object sender, EventArgs e)
+		{
+			tableList[currentWeek].UpdateAllUnit();
+		}
+
+		private void btn_copy_Click(object sender, EventArgs e)
+		{
+
+		}
+
 		#endregion
 
 		#region 辅助方法
@@ -206,18 +220,11 @@ namespace ScheduleEditor
 			{
 				containPanel.Controls.Clear();
 				containPanel.Controls.Add(tableList[week]);
-
+				tableList[week].UpdateAllUnit();
 				weekCount.Text = $"第{week}周";
 			}
 		}
 
 		#endregion
-
-		private void Form1_Load(object sender, EventArgs e)
-		{
-
-		}
-
-
 	}
 }

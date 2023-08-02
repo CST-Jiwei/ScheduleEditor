@@ -31,24 +31,23 @@ namespace SCAUConverter.Models
 		}
 
 		[JsonIgnore]
-		public ReadOnlyCollection<FreeTime> FreeTimes
+		public ReadOnlyDictionary<int, FreeTime> FreeTimes
 		{
 			get
 			{
 				if (needUpdate)
 				{
-					_freeTimes.Clear();
-					_freeTimes.AddRange(genfreeTime());
+					_freeTimes = genfreeTime();
 					needUpdate = false;
 				}
 				return _freeTimes.AsReadOnly();
 			}
 		}
-		private List<FreeTime> _freeTimes;
+		private Dictionary<int, FreeTime> _freeTimes;
 		private bool needUpdate = true; //是否需要更新FreeTimes
-		private List<FreeTime> genfreeTime()
+		private Dictionary<int,FreeTime> genfreeTime()
 		{
-			var freeTime = new List<FreeTime>(Config.WEEK_LIMIT);
+			Dictionary<int, FreeTime> freeTime = new(Config.WEEK_LIMIT);
 			for (int w = 1; w <= Config.WEEK_LIMIT; w++)
 			{
 				bool[,] free = new bool[4, 7];
@@ -59,7 +58,7 @@ namespace SCAUConverter.Models
 						free[i, j] = true;
 					}
 				}
-				freeTime.Add(new FreeTime
+				freeTime.Add(w, new FreeTime
 				{
 					week = w,
 					available = free
@@ -77,7 +76,7 @@ namespace SCAUConverter.Models
 					{
 						for (int i = sec.Item1; i <= sec.Item2; i++)
 						{
-							freeTime.Find(x => x.week == w).available[i - 1, c.DayOfWeek - 1] = false;
+							freeTime[w].available[i - 1, c.DayOfWeek - 1] = false;
 						}
 					}
 				}
@@ -89,7 +88,7 @@ namespace SCAUConverter.Models
 						{
 							for (int i = sec.Item1; i <= sec.Item2; i++)
 							{
-								freeTime.Find(x => x.week == w).available[i - 1, c.DayOfWeek - 1] = false;
+								freeTime[w].available[i - 1, c.DayOfWeek - 1] = false;
 							}
 						}
 					}
@@ -98,10 +97,15 @@ namespace SCAUConverter.Models
 			return freeTime;
 		}
 
+		public bool Available(int w, int d, int s)
+		{
+			return FreeTimes[w].available[s - 1, d - 1];
+		}
+
 		internal Timetable()
 		{
-			_stuCourses = new List<Course>();
-			_freeTimes = new List<FreeTime>();
+			_stuCourses = new();
+			_freeTimes = new();
 		}
 
 		private (int, int) checkTime(int s, int e)
@@ -130,12 +134,12 @@ namespace SCAUConverter.Models
 			}
 			for (int i = 0; i < 18; i++)
 			{
-				sb.Append($"第{free[i].week}周\n");
+				sb.Append($"第{free[i+1].week}周\n");
 				for (int j = 0; j < 4; j++)
 				{
 					for (int k = 0; k < 7; k++)
 					{
-						sb.Append(free[i].available[j, k] ? " O " : " X ");
+						sb.Append(free[i+1].available[j, k] ? " O " : " X ");
 					}
 					sb.Append("\n");
 				}

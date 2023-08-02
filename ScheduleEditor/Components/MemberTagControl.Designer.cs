@@ -34,19 +34,22 @@
 			// 
 			// flowPane
 			// 
+			flowPane.AutoScroll = true;
 			flowPane.BorderStyle = BorderStyle.FixedSingle;
 			flowPane.Location = new Point(3, 3);
 			flowPane.Name = "flowPane";
-			flowPane.Size = new Size(185, 97);
+			flowPane.Size = new Size(204, 121);
 			flowPane.TabIndex = 0;
 			// 
 			// cmbx_member
 			// 
 			cmbx_member.FormattingEnabled = true;
-			cmbx_member.Location = new Point(3, 106);
+			cmbx_member.ImeMode = ImeMode.NoControl;
+			cmbx_member.Location = new Point(75, 130);
 			cmbx_member.Name = "cmbx_member";
 			cmbx_member.Size = new Size(132, 28);
 			cmbx_member.TabIndex = 1;
+			cmbx_member.TextUpdate += cmbx_member_TextUpdate;
 			// 
 			// MemberTagControl
 			// 
@@ -56,7 +59,7 @@
 			Controls.Add(cmbx_member);
 			Controls.Add(flowPane);
 			Name = "MemberTagControl";
-			Size = new Size(210, 140);
+			Size = new Size(246, 175);
 			ResumeLayout(false);
 		}
 

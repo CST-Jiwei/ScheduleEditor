@@ -24,6 +24,11 @@ namespace ScheduleEditor.Components
 			CloseEvent?.Invoke(this, e);
 		}
 
+		private void name_Click(object sender, EventArgs e)
+		{
+
+		}
+
 		public string NameText
 		{
 			get => name.Text;

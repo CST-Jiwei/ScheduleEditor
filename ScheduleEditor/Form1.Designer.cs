@@ -47,13 +47,16 @@
 			m_OpenMemberList = new ToolStripMenuItem();
 			saveMemberJson = new ToolStripMenuItem();
 			menuStrip2 = new MenuStrip();
+			btn_copy = new Button();
+			btn_Clear = new Button();
+			btn_ForceUpdate = new Button();
 			menuStrip2.SuspendLayout();
 			SuspendLayout();
 			// 
 			// btnToNext
 			// 
 			btnToNext.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-			btnToNext.Location = new Point(1335, 321);
+			btnToNext.Location = new Point(1414, 321);
 			btnToNext.Name = "btnToNext";
 			btnToNext.Size = new Size(56, 48);
 			btnToNext.TabIndex = 7;
@@ -77,7 +80,7 @@
 			lblStatus.AutoSize = true;
 			lblStatus.Font = new Font("Microsoft YaHei UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
 			lblStatus.ForeColor = Color.Red;
-			lblStatus.Location = new Point(26, 672);
+			lblStatus.Location = new Point(12, 814);
 			lblStatus.Name = "lblStatus";
 			lblStatus.Size = new Size(453, 30);
 			lblStatus.TabIndex = 5;
@@ -97,7 +100,7 @@
 			// 
 			containPanel.Location = new Point(74, 43);
 			containPanel.Name = "containPanel";
-			containPanel.Size = new Size(1255, 626);
+			containPanel.Size = new Size(1334, 763);
 			containPanel.TabIndex = 0;
 			// 
 			// ScheduleData
@@ -192,15 +195,51 @@
 			menuStrip2.Location = new Point(0, 0);
 			menuStrip2.Name = "menuStrip2";
 			menuStrip2.Padding = new Padding(7, 2, 0, 2);
-			menuStrip2.Size = new Size(1403, 28);
+			menuStrip2.Size = new Size(1482, 28);
 			menuStrip2.TabIndex = 1;
 			menuStrip2.Text = "menuStrip2";
+			// 
+			// btn_copy
+			// 
+			btn_copy.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+			btn_copy.Location = new Point(1292, 812);
+			btn_copy.Name = "btn_copy";
+			btn_copy.Size = new Size(116, 32);
+			btn_copy.TabIndex = 10;
+			btn_copy.Text = "复制上一周";
+			btn_copy.UseVisualStyleBackColor = true;
+			btn_copy.Click += btn_copy_Click;
+			// 
+			// btn_Clear
+			// 
+			btn_Clear.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+			btn_Clear.Location = new Point(1223, 812);
+			btn_Clear.Name = "btn_Clear";
+			btn_Clear.Size = new Size(63, 32);
+			btn_Clear.TabIndex = 11;
+			btn_Clear.Text = "清空";
+			btn_Clear.UseVisualStyleBackColor = true;
+			btn_Clear.Click += btn_Clear_Click;
+			// 
+			// btn_ForceUpdate
+			// 
+			btn_ForceUpdate.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+			btn_ForceUpdate.Location = new Point(1146, 812);
+			btn_ForceUpdate.Name = "btn_ForceUpdate";
+			btn_ForceUpdate.Size = new Size(71, 32);
+			btn_ForceUpdate.TabIndex = 12;
+			btn_ForceUpdate.Text = "刷新";
+			btn_ForceUpdate.UseVisualStyleBackColor = true;
+			btn_ForceUpdate.Click += btn_ForceUpdate_Click;
 			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(10F, 19F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(1403, 715);
+			ClientSize = new Size(1482, 853);
+			Controls.Add(btn_ForceUpdate);
+			Controls.Add(btn_Clear);
+			Controls.Add(btn_copy);
 			Controls.Add(containPanel);
 			Controls.Add(weekCount);
 			Controls.Add(btnToNext);
@@ -216,7 +255,6 @@
 			Name = "Form1";
 			SizeGripStyle = SizeGripStyle.Hide;
 			Text = "值班表编辑器";
-			Load += Form1_Load;
 			menuStrip2.ResumeLayout(false);
 			menuStrip2.PerformLayout();
 			ResumeLayout(false);
@@ -244,5 +282,8 @@
 		private MenuStrip menuStrip2;
 		private ToolStripMenuItem saveMemberJson;
 		private ToolStripMenuItem ScheduleData;
+		private Button btn_copy;
+		private Button btn_Clear;
+		private Button btn_ForceUpdate;
 	}
 }

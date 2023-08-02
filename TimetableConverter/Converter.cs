@@ -42,7 +42,7 @@ namespace SCAUConverter
 				course.Weeks = new(weeks.Length);
 				for (int i = 0; i < weeks.Length; i++)
 				{
-					course.Weeks[i] = int.Parse(weeks[i]);
+					course.Weeks.Add(int.Parse(weeks[i]));//?
 				}
 			}
 			else
@@ -86,6 +86,7 @@ namespace SCAUConverter
 		/// </summary>
 		public static Timetable? CreateTimetable(string filePath)
 		{
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			Timetable? timetable = null;
 			if (File.Exists(filePath))
 			{
@@ -135,7 +136,7 @@ namespace SCAUConverter
 		/// <returns></returns>
 		public static Schedule CreateSchedule(string[]? paths = null)
 		{
-
+			System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 			var sch = new Schedule();
 			if (paths != null && paths.Length != 0)
 			{

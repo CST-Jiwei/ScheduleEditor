@@ -27,5 +27,24 @@ namespace ScheduleEditor.Components
 			}
 			Size = size;
 		}
+
+		public void ClearAllUnit()
+		{
+			//TODO
+			
+		}
+
+		public void CopyFrom(ScheduleTablePanel table)
+		{
+			//TODO
+		}
+
+		public void UpdateAllUnit()
+		{
+			foreach(MemberTagControl tag in Controls)
+			{
+				tag.UpdateAvailableMembersList(this, EventArgs.Empty);
+			}
+		}
 	}
 }

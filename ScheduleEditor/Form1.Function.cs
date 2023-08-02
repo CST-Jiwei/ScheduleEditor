@@ -9,16 +9,31 @@ namespace ScheduleEditor
 {
 	public partial class Form1 : Form
 	{
-		private static string statusText_Empty = "暂无数据，请先导入值班表数据或新建值班表";
-		private static string statusText_OK = "请及时保存数据";
-		private static string statusText_NoMember = "未导入队员数据，请先导入队员数据";
+		private int memberCount
+		{
+			get
+			{
+				return EditService.Instance?.MemberCount ?? -1;
+			}
+		}
+		private int scheduledMemberCount
+		{
+			get
+			{
+				return EditService.Instance?.ScheduledMemberCount ?? -1;
+			}
+		}
 
-		private EditService edit;
+
+		private void UpdateStatusText(object sender, EventArgs e)
+		{
+			lblStatus.Text = $"共{memberCount}名队员，已安排{scheduledMemberCount}人";
+		}
+
 
 		private void Initialize()
 		{
-			edit = EditService.CreateService();
-
+			EditService.Instance.MemberChanged += UpdateStatusText;
 		}
 	}
 }

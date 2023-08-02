@@ -13,6 +13,8 @@ namespace SCAUConverter.Models
 	public class Schedule
 	{
 		public string? timestamp { get; private set; }
+		public int MemberCount => _memberTimetables.Count;
+		public int ScheduledMemberCount => _scheduledMembers.Count;
 
 		private List<Timetable> _memberTimetables;
 		public ReadOnlyCollection<Timetable> MemberTimetables => _memberTimetables.AsReadOnly();
@@ -106,6 +108,19 @@ namespace SCAUConverter.Models
 					_arrangements.Add((w, d), new());
 				}
 			}
+		}
+
+		public List<string> GetAvailableMemberList(int w, int d, int s)
+		{
+			var availableMembers = new List<string>();
+			foreach (var member in _memberTimetables)
+			{
+				if (member.Available(w, d, s))
+				{
+					availableMembers.Add(member.StuName);
+				}
+			}
+			return availableMembers;
 		}
 
 		public void Reset()

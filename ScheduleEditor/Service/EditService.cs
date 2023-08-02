@@ -7,22 +7,28 @@ namespace ScheduleEditor.Service
 {
 	public class EditService
 	{
-		private EditService()
+		private EditService() { }
+		private static EditService? _instance;
+		public static EditService Instance 
 		{
-
-		}
-
-		public static EditService CreateService()
-		{
-			return new EditService();
+			get
+			{
+				return _instance ??= new EditService();
+			} 
 		}
 
 		public bool IsDataLoaded => schedule != null;
 		private Schedule? schedule;
+		public int MemberCount => schedule?.MemberCount ?? 0;
+		public int ScheduledMemberCount => schedule?.ScheduledMemberCount ?? 0;
+		public event EventHandler? MemberChanged;
 
+
+		#region 值班表编辑
 		public void NewEmptySchedule()
 		{
 			schedule = Converter.CreateSchedule(null);
+			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
 		public void LoadScheduleJson(string json)
 		{
@@ -30,7 +36,9 @@ namespace ScheduleEditor.Service
 			if(!string.IsNullOrEmpty(json))
 			{
 				//TODO
+				
 			}
+			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
 		public string GetScheduleJson()
 		{
@@ -63,6 +71,7 @@ namespace ScheduleEditor.Service
 					}
 				}
 			}
+			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public void AddMemberJson(string? json)
@@ -78,6 +87,7 @@ namespace ScheduleEditor.Service
 					}
 				}
 			}
+			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public string GetScheduleWebJson()
@@ -86,10 +96,21 @@ namespace ScheduleEditor.Service
 			return "json";
 		}
 
-		public ReadOnlyCollection<string?>? GetAvailableMemberList()
+		public void AddMemeberArrangement((int week, int day, int section) wds, string name)
 		{
-			//TODO
-			return schedule?.MemberList;
+			schedule?.AddArrangement(wds.week, wds.day, wds.section, name);
+			MemberChanged?.Invoke(this, EventArgs.Empty);
+		}
+		public void RemoveMemeberArrangement((int week, int day, int section) wds, string name)
+		{
+			schedule?.RemoveArrangement(wds.week, wds.day, wds.section, name);
+			MemberChanged?.Invoke(this, EventArgs.Empty);
+		}
+		#endregion
+
+		public List<string>? GetAvailableMembersList((int week, int day, int section) wds)
+		{
+			return schedule?.GetAvailableMemberList(wds.week, wds.day, wds.section);
 		}
 
 	}

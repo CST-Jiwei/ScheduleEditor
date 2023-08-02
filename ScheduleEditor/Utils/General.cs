@@ -20,6 +20,11 @@ namespace ScheduleEditor.Utils
 
 		private readonly static CultureInfo zh_CN = new CultureInfo("zh-CN");
 
+		public static string GetTimeStampForFileName()
+		{
+			return DateTime.Now.ToString("yyyyMMDDHHmmssff");
+		}
+
 		public static string GetTimestampS()
 		{
 			return DateTime.Now.ToString("s", zh_CN);
