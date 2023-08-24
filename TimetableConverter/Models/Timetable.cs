@@ -11,8 +11,10 @@ namespace SCAUConverter.Models
 		public string? StuName { get; set; }
 		public string? StuID { get; set; }
 
+		[JsonIgnore]
 		public ReadOnlyCollection<Course> StuCourses => _stuCourses.AsReadOnly();
-		private List<Course> _stuCourses;
+		[JsonInclude]
+		public List<Course> _stuCourses;
 		public void SetStuCourses(List<Course> lc)
 		{
 			_stuCourses.Clear();
@@ -147,6 +149,7 @@ namespace SCAUConverter.Models
 			return sb.ToString();
 		}
 
+		[Serializable]
 		public struct FreeTime
 		{
 			public int week;

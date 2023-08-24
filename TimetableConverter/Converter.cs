@@ -1,5 +1,6 @@
 ﻿using ExcelDataReader;
 using SCAUConverter.Models;
+using System.Text.Json;
 
 namespace SCAUConverter
 {
@@ -34,18 +35,50 @@ namespace SCAUConverter
 			course.EndTime = int.Parse(time.Substring(time.Length - 2, 2));
 
 
-			if (strs[Config.courseWeekAndTime].Contains(",")) //跳周课
+			if (strs[Config.courseWeekAndTime].Contains(",")) //间隔周
 			{
 				course.IsGap = true;
-				week = week.Replace("周", "").Replace(")", "");
-				var weeks = week.Split(",");
-				course.Weeks = new(weeks.Length);
-				for (int i = 0; i < weeks.Length; i++)
+				course.Weeks = new();
+				if (strs[Config.courseWeekAndTime].Contains("-")) //既间隔周，又连续周
 				{
-					course.Weeks.Add(int.Parse(weeks[i]));//?
+					week = week.Replace("周", "").Replace(")", "");
+					var weekGroups = week.Split(',');
+					foreach(var group in weekGroups)
+					{
+						if(group.Contains("-"))
+						{
+							var g = group.Split("-");
+							if (g.Length == 2)
+							{
+								var start = int.Parse(g[0]);
+								var end = int.Parse(g[1]);
+								for (int i = start; i <= end; i++)
+								{
+									course.Weeks.Add(i);
+								}
+							}
+						}
+						else
+						{
+							var tryR = int.TryParse(group, out var wk);
+							if(tryR)
+							{
+								course.Weeks.Add(wk);
+							}
+						}
+                    }
+				}
+				else
+				{
+					week = week.Replace("周", "").Replace(")", "");
+					var weeks = week.Split(",");
+					for (int i = 0; i < weeks.Length; i++)
+					{
+						course.Weeks.Add(int.Parse(weeks[i]));//?
+					}
 				}
 			}
-			else
+			else //连续周
 			{
 				course.IsGap = false;
 				week = week.Replace("周", string.Empty).Replace(")", string.Empty);
@@ -149,6 +182,12 @@ namespace SCAUConverter
 					}
 				}
 			}
+			return sch;
+		}
+
+		public static Schedule? CreateSchedule(string json)
+		{
+			var sch = JsonSerializer.Deserialize<Schedule>(json);
 			return sch;
 		}
 

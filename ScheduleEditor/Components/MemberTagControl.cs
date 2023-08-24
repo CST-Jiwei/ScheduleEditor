@@ -32,27 +32,74 @@ namespace ScheduleEditor.Components
 		private BindingSource? availableMembersSourse;
 
 		public List<string> AvailableMembers { get; set; } = new();
-		public List<string> CurrentMembers { get; set; } = new();
-		public void UpdateAvailableMembersList(object sender, EventArgs e)
+		public List<string> ArrangedMembers { get; set; } = new();
+		public void Update(object sender, EventArgs e)
 		{
 			AvailableMembers.Clear();
 			AvailableMembers.AddRange(EditService.Instance.GetAvailableMembersList(WeekDaySection) ?? new() { "无可用队员" });
+
+			ArrangedMembers.Clear();
+			ArrangedMembers.AddRange(EditService.Instance.GetArrangedMemberList(WeekDaySection) ?? new());
+			flowPane.Controls.Clear();
+			foreach(var member in ArrangedMembers) 
+			{
+				AddMemberTag(member);	
+			}
+			//再将已安排的队员从待定中去掉
+			AvailableMembers.RemoveAll(x => ArrangedMembers.Contains(x));
 			availableMembersSourse?.ResetBindings(false);
 		}
 
-		private void AddMember(string name)
+		public void ClearArrangement()
+		{
+			AvailableMembers.AddRange(ArrangedMembers);
+			foreach (var member in ArrangedMembers) 
+			{
+				EditService.Instance.RemoveMemeberArrangement(WeekDaySection, member);
+			}
+			flowPane.Controls.Clear();
+			ArrangedMembers.Clear();
+			availableMembersSourse?.ResetBindings(false);
+		}
+
+		public void Copy(MemberTagControl? other)
+		{
+			if(other is not null)
+			{
+				//TODO
+			}
+		}
+		
+		/// <summary>
+		/// 仅添加Tag
+		/// </summary>
+		/// <param name="name"></param>
+		private void AddMemberTag(string name)
 		{
 			TagControl tag = new() { NameText = name };
 			tag.CloseEvent += RemoveMemberTagEvent;
-			CurrentMembers.Add(name);
 			flowPane.Controls.Add(tag);
+		}
+		
+		/// <summary>
+		/// 添加队员安排
+		/// </summary>
+		/// <param name="name"></param>
+		private void AddMember(string name)
+		{
+			AddMemberTag(name);
+			ArrangedMembers.Add(name);
+			AvailableMembers.Remove(name);
+			availableMembersSourse?.ResetBindings(false);
 			EditService.Instance.AddMemeberArrangement(WeekDaySection, name);
 		}
 
 		private void RemoveMemberTagEvent(object sender, EventArgs e)
 		{
 			TagControl tag = (TagControl)sender;
-			CurrentMembers.Remove(tag.NameText);
+			ArrangedMembers.Remove(tag.NameText);
+			AvailableMembers.Add(tag.NameText);
+			availableMembersSourse?.ResetBindings(false);
 			flowPane.Controls.Remove(tag);
 			EditService.Instance.RemoveMemeberArrangement(WeekDaySection, tag.NameText);
 		}
@@ -67,7 +114,7 @@ namespace ScheduleEditor.Components
 		private void cmbx_member_SelectedValueChanged(object sender, EventArgs e)
 		{
 			var cmbx = (ComboBox)sender;
-			if (cmbx.SelectedIndex != -1)
+			if (cmbx.SelectedIndex != -1 && cmbx.Text != "无可用队员")
 			{
 				AddMember(cmbx.Text);
 			}

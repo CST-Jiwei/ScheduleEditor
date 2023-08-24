@@ -39,7 +39,8 @@
 			m_SaveJson = new ToolStripMenuItem();
 			m_LoadJson = new ToolStripMenuItem();
 			toolStripSeparator1 = new ToolStripSeparator();
-			m_ImportWebJson = new ToolStripMenuItem();
+			m_ExportWebJson = new ToolStripMenuItem();
+			m_ExportCsv = new ToolStripMenuItem();
 			Member = new ToolStripMenuItem();
 			m_AddXlsx = new ToolStripMenuItem();
 			m_AddJson = new ToolStripMenuItem();
@@ -105,7 +106,7 @@
 			// 
 			// ScheduleData
 			// 
-			ScheduleData.DropDownItems.AddRange(new ToolStripItem[] { m_NewSche, toolStripSeparator3, m_SaveJson, m_LoadJson, toolStripSeparator1, m_ImportWebJson });
+			ScheduleData.DropDownItems.AddRange(new ToolStripItem[] { m_NewSche, toolStripSeparator3, m_SaveJson, m_LoadJson, toolStripSeparator1, m_ExportWebJson, m_ExportCsv });
 			ScheduleData.Name = "ScheduleData";
 			ScheduleData.Size = new Size(53, 24);
 			ScheduleData.Text = "数据";
@@ -126,27 +127,34 @@
 			// 
 			m_SaveJson.Name = "m_SaveJson";
 			m_SaveJson.Size = new Size(229, 26);
-			m_SaveJson.Text = "保存至Json";
-			m_SaveJson.Click += SaveScheduleJson;
+			m_SaveJson.Text = "保存数据文件";
+			m_SaveJson.Click += SaveScheduleBin;
 			// 
 			// m_LoadJson
 			// 
 			m_LoadJson.Name = "m_LoadJson";
 			m_LoadJson.Size = new Size(229, 26);
-			m_LoadJson.Text = "读取Json";
-			m_LoadJson.Click += LoadScheduleJson;
+			m_LoadJson.Text = "读取数据文件";
+			m_LoadJson.Click += LoadScheduleBin;
 			// 
 			// toolStripSeparator1
 			// 
 			toolStripSeparator1.Name = "toolStripSeparator1";
 			toolStripSeparator1.Size = new Size(226, 6);
 			// 
-			// m_ImportWebJson
+			// m_ExportWebJson
 			// 
-			m_ImportWebJson.Name = "m_ImportWebJson";
-			m_ImportWebJson.Size = new Size(229, 26);
-			m_ImportWebJson.Text = "导出网页端可读Json";
-			m_ImportWebJson.Click += ExportWebJson;
+			m_ExportWebJson.Name = "m_ExportWebJson";
+			m_ExportWebJson.Size = new Size(229, 26);
+			m_ExportWebJson.Text = "导出网页端可读Json";
+			m_ExportWebJson.Click += ExportWebJson;
+			// 
+			// m_ExportCsv
+			// 
+			m_ExportCsv.Name = "m_ExportCsv";
+			m_ExportCsv.Size = new Size(229, 26);
+			m_ExportCsv.Text = "导出csv文件";
+			m_ExportCsv.Click += ExportCsv;
 			// 
 			// Member
 			// 
@@ -208,6 +216,7 @@
 			btn_copy.TabIndex = 10;
 			btn_copy.Text = "复制上一周";
 			btn_copy.UseVisualStyleBackColor = true;
+			btn_copy.Visible = false;
 			btn_copy.Click += btn_copy_Click;
 			// 
 			// btn_Clear
@@ -273,7 +282,7 @@
 		private ToolStripMenuItem m_SaveJson;
 		private ToolStripMenuItem m_LoadJson;
 		private ToolStripSeparator toolStripSeparator1;
-		private ToolStripMenuItem m_ImportWebJson;
+		private ToolStripMenuItem m_ExportWebJson;
 		private ToolStripMenuItem Member;
 		private ToolStripMenuItem m_AddXlsx;
 		private ToolStripMenuItem m_AddJson;
@@ -285,5 +294,6 @@
 		private Button btn_copy;
 		private Button btn_Clear;
 		private Button btn_ForceUpdate;
+		private ToolStripMenuItem m_ExportCsv;
 	}
 }

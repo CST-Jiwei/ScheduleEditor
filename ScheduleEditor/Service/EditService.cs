@@ -1,6 +1,8 @@
 ﻿using SCAUConverter;
 using SCAUConverter.Models;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Text.Json;
 
 namespace ScheduleEditor.Service
@@ -27,23 +29,52 @@ namespace ScheduleEditor.Service
 		#region 值班表编辑
 		public void NewEmptySchedule()
 		{
-			schedule = Converter.CreateSchedule(null);
+			schedule = Converter.CreateSchedule();
 			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
-		public void LoadScheduleJson(string json)
+		/// <summary>
+		/// 从二进制文件还原
+		/// </summary>
+		/// <param name="json"></param>
+		public void LoadScheduleBin(byte[] bin)
 		{
-			NewEmptySchedule();
-			if(!string.IsNullOrEmpty(json))
+			if(bin != null)
 			{
-				//TODO
-				
+				using (var stream = new MemoryStream(bin))
+				{
+					BinaryFormatter bf = new();
+#pragma warning disable SYSLIB0011 // 类型或成员已过时
+					schedule = (Schedule)bf.Deserialize(stream);
+#pragma warning restore SYSLIB0011 // 类型或成员已过时
+				}
 			}
 			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
-		public string GetScheduleJson()
+		/// <summary>
+		/// 生成二进制
+		/// </summary>
+		/// <returns></returns>
+		public byte[] GetScheduleBin()
 		{
 			//TODO
-			return "json";
+			using (var stream = new MemoryStream())
+			{
+				BinaryFormatter bf = new BinaryFormatter();
+#pragma warning disable SYSLIB0011 // 类型或成员已过时
+				bf.Serialize(stream, schedule);
+#pragma warning restore SYSLIB0011 // 类型或成员已过时
+				stream.Flush();
+				var bin = stream.ToArray();
+				return bin;
+			}
+		}
+		/// <summary>
+		/// 导出可阅读csv（程序无法接收）
+		/// </summary>
+		/// <returns></returns>
+		internal string GetScheduleCsv()
+		{
+			return schedule?.GetCsv() ?? string.Empty;
 		}
 
 		public string GetMembersJson()
@@ -90,6 +121,10 @@ namespace ScheduleEditor.Service
 			MemberChanged?.Invoke(this, EventArgs.Empty);
 		}
 
+		/// <summary>
+		/// 导出web使用的json格式（本程序无法读取）
+		/// </summary>
+		/// <returns></returns>
 		public string GetScheduleWebJson()
 		{
 			//TODO
@@ -113,5 +148,14 @@ namespace ScheduleEditor.Service
 			return schedule?.GetAvailableMemberList(wds.week, wds.day, wds.section);
 		}
 
+		public List<string>? GetArrangedMemberList((int week, int day, int section) wds)
+		{
+			return schedule?.GetArrangedMemberList(wds.week, wds.day, wds.section);
+		}
+
+		public void ForceUpdate()
+		{
+			MemberChanged?.Invoke(this, EventArgs.Empty);
+		}
 	}
 }

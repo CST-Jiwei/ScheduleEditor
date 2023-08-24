@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -10,8 +11,10 @@ namespace ScheduleEditor.Components
 {
 	public partial class ScheduleTablePanel : TableLayoutPanel
 	{
-		public void Initialize(Size size)
+		public int Week;
+		public void Initialize(Size size, int week)
 		{
+			Week = week;
 			ColumnCount = 5;
 			RowCount = 4;
 			BackColor = SystemColors.Control;
@@ -31,19 +34,32 @@ namespace ScheduleEditor.Components
 		public void ClearAllUnit()
 		{
 			//TODO
-			
+			foreach (MemberTagControl tag in Controls)
+			{
+				tag.ClearArrangement();
+			}
+
 		}
 
 		public void CopyFrom(ScheduleTablePanel table)
 		{
 			//TODO
+			for (int d = 1; d <= 5; d++)
+			{
+				for (int s = 1; s <= 4; s++)
+				{
+					var origin = table.GetControlFromPosition(d - 1, s - 1) as MemberTagControl;
+					var receiver = this.GetControlFromPosition(d - 1, s - 1) as MemberTagControl;
+					receiver?.Copy(origin);
+				}
+			}
 		}
 
 		public void UpdateAllUnit()
 		{
 			foreach(MemberTagControl tag in Controls)
 			{
-				tag.UpdateAvailableMembersList(this, EventArgs.Empty);
+				tag.Update(this, EventArgs.Empty);
 			}
 		}
 	}

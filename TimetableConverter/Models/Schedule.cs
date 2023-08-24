@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Collections.ObjectModel;
 using SCAUConverter;
+using System.Text.Json.Serialization;
 
 namespace SCAUConverter.Models
 {
@@ -13,11 +14,16 @@ namespace SCAUConverter.Models
 	public class Schedule
 	{
 		public string? timestamp { get; private set; }
+
 		public int MemberCount => _memberTimetables.Count;
+
 		public int ScheduledMemberCount => _scheduledMembers.Count;
 
-		private List<Timetable> _memberTimetables;
+
+		public List<Timetable> _memberTimetables;
+
 		public ReadOnlyCollection<Timetable> MemberTimetables => _memberTimetables.AsReadOnly();
+
 		public ReadOnlyCollection<string?> MemberList => _memberTimetables.Select(t => t.StuName).ToList().AsReadOnly();
 		/// <summary>
 		/// 设置队员列表（将会重置排班表，若未保存将会丢失）
@@ -44,8 +50,11 @@ namespace SCAUConverter.Models
 		{
 			if (IsMemberScheduled(member))
 			{
-				var loc = _scheduledMembers[member];
-				_arrangements.Remove((loc.week, loc.day));
+				var locs = _scheduledMembers[member];
+				foreach(var loc in locs)
+				{
+					_arrangements.Remove((loc.week, loc.day));
+				}
 				_scheduledMembers.Remove(member);
 				_memberTimetables.Remove(_memberTimetables.Find(t => t.StuName == member));
 				Update();
@@ -54,22 +63,45 @@ namespace SCAUConverter.Models
 			return false;
 		}
 
-		private Dictionary<string, (int week, int day)> _scheduledMembers;
-		public (int week, int day) GetMember(string member)
+		public Dictionary<string, List<(int week, int day)>> _scheduledMembers;
+		public List<(int week, int day)>? GetMember(string member)
 		{
-			var tryR = _scheduledMembers.TryGetValue(member, out (int week, int day) memberSchedule);
-			if (tryR)
-			{
-				return memberSchedule;
-			}
-			return (-1, -1);
+			return _scheduledMembers.GetValueOrDefault(member);
 		}
 		public bool IsMemberScheduled(string member)
 		{
 			return _scheduledMembers.ContainsKey(member);
 		}
 
-		private Dictionary<(int week, int day), ScheduleUnit> _arrangements;
+		public string GetCsv()
+		{
+			StringBuilder csvB = new StringBuilder();
+			for(int w=1;w<=20;w++)
+			{
+				csvB.AppendLine($"第{w}周");
+				csvB.AppendLine("星期一,星期二,星期三,星期四,星期五");
+				for(int s=1;s<=4;s++)
+				{
+					for(int d=1;d<=5;d++)
+					{
+						var unit = GetUnit(w, d);
+						if (unit != null)
+						{
+							var members = unit.GetSectionMembers(s);
+							if (members.Count > 0)
+							{
+								csvB.AppendJoin('/', members);
+							}
+						}
+						csvB.Append(',');
+					}
+					csvB.AppendLine();
+				}
+			}
+			return csvB.ToString();
+		}
+
+		public Dictionary<(int week, int day), ScheduleUnit> _arrangements;
 		public ScheduleUnit? GetUnit(int week, int day)
 		{
 			var tryR = _arrangements.TryGetValue((week, day), out ScheduleUnit? unit);
@@ -79,7 +111,7 @@ namespace SCAUConverter.Models
 			}
 			return null;
 		}
-		public ReadOnlyCollection<ScheduleUnit> Arrangements => _arrangements.Values.ToList().AsReadOnly();
+
 		public void AddArrangement(int week, int day, int section, string member)
 		{
 			Update();
@@ -128,6 +160,17 @@ namespace SCAUConverter.Models
 				}
 			}
 			return availableMembers;
+		}
+
+		public List<string> GetArrangedMemberList(int w, int d, int s)
+		{
+			var arrangedMembers = new List<string>();
+			var sectionMembers = GetUnit(w, d)?.GetSectionMembers(s);
+			if (sectionMembers != null)
+			{
+				arrangedMembers.AddRange(sectionMembers);
+			}
+			return arrangedMembers;
 		}
 
 		public void Reset()

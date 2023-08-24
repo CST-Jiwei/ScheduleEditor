@@ -9,29 +9,22 @@ namespace ScheduleEditor
 		public Form1()
 		{
 			InitializeComponent();
+			//顺序不能变
 			Initialize();
-			InitializeForm();
 			InitializeTable();
 		}
 
-		private Dictionary<int, ScheduleTablePanel> tableList;
+		private Dictionary<int, ScheduleTablePanel> tableDict;
 		private int currentWeek = 1;
-
-		private void InitializeForm()
-		{
-			this.Text = General.Title;
-			//
-			UpdateStatusText(this, EventArgs.Empty);
-		}
 
 		private void InitializeTable()
 		{
-			tableList = new(20);
+			tableDict = new(20);
 			//初始化值班表区域
 			for (int w = 1; w <= General.WEEK_LIMIT; w++)
 			{
 				var table = new ScheduleTablePanel();
-				table.Initialize(containPanel.Size);
+				table.Initialize(containPanel.Size, w);
 				for (int d = 1; d <= 5; d++)
 				{
 					for (int s = 1; s <= 4; s++)
@@ -40,7 +33,7 @@ namespace ScheduleEditor
 						table.Controls.Add(tag, d - 1, s - 2);
 					}
 				}
-				tableList.Add(w, table);
+				tableDict.Add(w, table);
 			}
 			ChangeTable(1);
 		}
@@ -54,40 +47,40 @@ namespace ScheduleEditor
 			InitializeTable();
 		}
 
-		private void LoadScheduleJson(object sender, EventArgs e)
+		private void LoadScheduleBin(object sender, EventArgs e)
 		{
 			var dlg = new OpenFileDialog();
-			dlg.Filter = "Json文件|*.json";
+			dlg.Filter = "Bin文件|*.bin";
 			dlg.Multiselect = false;
 			dlg.AddExtension = true;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				var file = dlg.FileName;
 				var msg = MessageBox.Show(
-					$"是否导入json数据文件?\n(注意：导入将会覆盖原有数据)",
+					$"是否导入数据文件?\n(注意：导入将会覆盖原有数据)",
 					"是否导入",
 					MessageBoxButtons.YesNo,
 					MessageBoxIcon.Warning
 				);
 				if (msg == DialogResult.Yes)
 				{
-					var json = File.ReadAllText(file);
-					EditService.Instance.LoadScheduleJson(json);
+					var bin = File.ReadAllBytes(file);
+					EditService.Instance.LoadScheduleBin(bin);
 				}
 			}
 		}
 
-		private void SaveScheduleJson(object sender, EventArgs e)
+		private void SaveScheduleBin(object sender, EventArgs e)
 		{
 			var dlg = new SaveFileDialog();
-			dlg.Filter = "Json文件|*.json";
-			dlg.FileName = $"schedule-{General.GetTimeStampForFileName()}.json";
+			dlg.Filter = ".bin文件|*.bin";
+			dlg.FileName = $"schedule-{General.GetTimeStampForFileName()}.bin";
 			dlg.AddExtension = true;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				var file = dlg.FileName;
-				var json = EditService.Instance.GetScheduleJson();
-				File.WriteAllText(file, json);
+				var bin = EditService.Instance.GetScheduleBin();
+				File.WriteAllBytes(file, bin);
 			}
 		}
 
@@ -102,6 +95,20 @@ namespace ScheduleEditor
 				var file = dlg.FileName;
 				var json = EditService.Instance.GetScheduleWebJson();
 				File.WriteAllText(file, json);
+			}
+		}
+
+		private void ExportCsv(object sender, EventArgs e)
+		{
+			var dlg = new SaveFileDialog();
+			dlg.Filter = "Csv文件|*.csv";
+			dlg.FileName = $"ScheduleCsv-{General.GetTimeStampForFileName()}.csv";
+			dlg.AddExtension = true;
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				var file = dlg.FileName;
+				var csv = EditService.Instance.GetScheduleCsv();
+				File.WriteAllText(file, csv);
 			}
 		}
 
@@ -197,17 +204,22 @@ namespace ScheduleEditor
 
 		private void btn_ForceUpdate_Click(object sender, EventArgs e)
 		{
-			tableList[currentWeek].UpdateAllUnit();
+			tableDict[currentWeek].UpdateAllUnit();
 		}
 
 		private void btn_Clear_Click(object sender, EventArgs e)
 		{
-			tableList[currentWeek].UpdateAllUnit();
+			//TODO
+			tableDict[currentWeek].ClearAllUnit();
+			tableDict[currentWeek].UpdateAllUnit();
 		}
 
 		private void btn_copy_Click(object sender, EventArgs e)
 		{
-
+			if (currentWeek != 1)
+			{
+				tableDict[currentWeek].CopyFrom(tableDict[currentWeek - 1]);
+			}
 		}
 
 		#endregion
@@ -216,12 +228,30 @@ namespace ScheduleEditor
 
 		private void ChangeTable(int week)
 		{
-			if (tableList.ContainsKey(week))
+			if (tableDict.ContainsKey(week))
 			{
 				containPanel.Controls.Clear();
-				containPanel.Controls.Add(tableList[week]);
-				tableList[week].UpdateAllUnit();
+				containPanel.Controls.Add(tableDict[week]);
+				tableDict[week].UpdateAllUnit();
 				weekCount.Text = $"第{week}周";
+				if (week == 1)
+				{
+					btnToPre.Enabled = false;
+					btn_copy.Enabled = false;
+				}
+				else
+				{
+					btnToPre.Enabled = true;
+					btn_copy.Enabled = true;
+					if (week == 20)
+					{
+						btnToNext.Enabled = false;
+					}
+					else
+					{
+						btnToNext.Enabled = true;
+					}
+				}
 			}
 		}
 

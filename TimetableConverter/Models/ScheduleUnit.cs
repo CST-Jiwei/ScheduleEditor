@@ -8,18 +8,15 @@ using System.Threading.Tasks;
 
 namespace SCAUConverter.Models
 {
+	[Serializable]
 	public class ScheduleUnit
 	{
 		public int week { get; set; }
 		public int day { get; set; }
 
-		[JsonInclude]
 		private List<string> Section1Members;
-		[JsonInclude]
 		private List<string> Section2Members;
-		[JsonInclude]
 		private List<string> Section3Members;
-		[JsonInclude]
 		private List<string> Section4Members;
 
 		public List<string> GetSectionMembers(int section)

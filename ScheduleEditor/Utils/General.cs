@@ -22,7 +22,7 @@ namespace ScheduleEditor.Utils
 
 		public static string GetTimeStampForFileName()
 		{
-			return DateTime.Now.ToString("yyyyMMDDHHmmssff");
+			return DateTime.Now.ToString("yyyyMMddHHmmssff");
 		}
 
 		public static string GetTimestampS()
